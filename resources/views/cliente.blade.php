@@ -1,8 +1,16 @@
 <x-layouts.app >
 <div class="relative mb-6 w-full">
-    <flux:heading size="xl" level="1">Settings</flux:heading>
-    <flux:subheading size="lg" class="mb-6">{{ __('Manage your profile and account settings') }}</flux:subheading>
-    <flux:separator variant="subtle" />
+<flux:breadcrumbs>
+    <flux:breadcrumbs.item :href="route('dashboard')">
+        Inicio
+    </flux:breadcrumbs.item> Cliente
+    <flux:breadcrumbs.item :href="route('cliente')">
+        
+    </flux:breadcrumbs.item>
+    <!-- <flux:breadcrumbs.item>
+        Post
+    </flux:breadcrumbs.item> -->
+</flux:breadcrumbs>
 </div>
 <livewire:cliente />
 </x-layouts.app>

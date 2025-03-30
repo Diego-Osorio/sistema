@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('producto', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre')->nullable();  // Si deseas permitir valores nulos en 'nombre'
-            $table->string('codigo')->unique();
+            $table->string('nombre')->default('Sin nombre'); // Corregido
+            $table->string('codigo')->nullable(); // Permitir valores nulos
             $table->decimal('precio', 10, 2);
             $table->unsignedBigInteger('categoria_id'); // Relación con categoría
             $table->integer('stock')->default(0);
             $table->integer('stock_minimo')->default(5); // Umbral de alerta
             $table->timestamps();
 
-            
             $table->foreign('categoria_id')->references('id')->on('categoria')->onDelete('cascade');
         });
     }

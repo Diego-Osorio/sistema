@@ -17,6 +17,7 @@ class Productos extends Model
         'stock',
         'stock_minimo',
     ];
+    
 
     /**
      * Relación con Categoría.
@@ -36,7 +37,7 @@ class Productos extends Model
     public function ventas()
     {
         return $this->belongsToMany(Ventas::class, 'venta_producto')
-        ->withPivot('cantidad', 'precio', 'total')
-        ->withTimestamps();
+            ->withPivot('cantidad', 'precio', 'total')
+            ->withTimestamps();
     }
 }

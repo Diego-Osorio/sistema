@@ -13,19 +13,19 @@
 
             <flux:navlist variant="outline">
                 <flux:navlist.group heading="Platform" class="grid">
-                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Home') }}</flux:navlist.item>
                      <flux:navlist.item icon="shopping-cart" :href="route('venta')" :current="request()->routeIs('venta')" wire:navigate>{{ __('Venta') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
             <flux:navlist variant="outline">
                 <flux:navlist.group heading="Inventario" class="grid">
-                     <flux:navlist.item icon="shopping-cart" :href="route('producto')" :current="request()->routeIs('producto')" wire:navigate>{{ __('producto') }}</flux:navlist.item>
+                     <flux:navlist.item icon="shopping-cart" :href="route('producto')" :current="request()->routeIs('producto')" wire:navigate>{{ __('Producto') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
             <flux:navlist variant="outline">
                 <flux:navlist.group heading="Usuarios" class="grid">
-                <flux:navlist.item icon="tag" :href="route('categoria')" :current="request()->routeIs('categoria')" wire:navigate>{{ __('categoria') }}</flux:navlist.item>
-                <flux:navlist.item icon="users" :href="route('cliente')" :current="request()->routeIs('cliente')" wire:navigate>{{ __('cliente') }}</flux:navlist.item>
+                <flux:navlist.item icon="tag" :href="route('categoria')" :current="request()->routeIs('categoria')" wire:navigate>{{ __('Categoria') }}</flux:navlist.item>
+                <flux:navlist.item icon="users" :href="route('cliente')" :current="request()->routeIs('cliente')" wire:navigate>{{ __('Cliente') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 
