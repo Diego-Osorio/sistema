@@ -9,9 +9,17 @@ class VentaProducto extends Model
 {
     use HasFactory;
 
-    protected $table = 'venta_producto';  // Si tu tabla tiene un nombre diferente
+    protected $table = 'venta_producto';
 
-    // Define las relaciones con los otros modelos
+    // Agrega las columnas permitidas para asignación masiva
+    protected $fillable = [
+        'venta_id',
+        'producto_id',
+        'cantidad',
+        'precio',
+        'total'
+    ];
+
     public function venta()
     {
         return $this->belongsTo(Ventas::class);

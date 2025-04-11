@@ -25,33 +25,50 @@ class Producto extends Component
         $this->productos = $productos;
     }
 
-    // Función para agregar un nuevo producto o editar uno existente
-    public function agregarProducto()
+  
+     public function agregarProducto()
     {
-        $this->validate([
-            'nombre' => 'required|string|max:255',
-            'codigo' => 'required|string|unique:producto,codigo,' . $this->producto_id,  // Cambiar producto por productos
-            'precio' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            'categoria_id' => 'required|exists:categoria,id',  // Cambiar categoria por categorias
+    $this->validate([
+        'nombre' => 'required|string|max:255',
+        'codigo' => 'required|string|max:255',
+        'precio' => 'required|numeric|min:0',
+        'stock' => 'required|integer|min:0',
+        'categoria_id' => 'required|exists:categorias,id',
+    ]);
+
+    if ($this->producto_id) {
+        // Editar producto
+        $producto = Productos::find($this->producto_id);
+        $producto->update([
+            'nombre' => $this->nombre,
+            'codigo' => $this->codigo,
+            'precio' => $this->precio,
+            'stock' => $this->stock, // Actualizar el stock
+            'categoria_id' => $this->categoria_id,
         ]);
-
-        Productos::updateOrCreate(
-            ['id' => $this->producto_id],
-            [
-                'nombre' => $this->nombre,
-                'codigo' => $this->codigo,
-                'precio' => $this->precio,
-                'stock' => $this->stock,
-                'categoria_id' => $this->categoria_id,
-            ]
-        );
-        
-
-        session()->flash('success', $this->producto_id ? 'Producto actualizado con éxito' : 'Producto agregado con éxito');
-        $this->reset();
-        $this->productos = Productos::all();  // Usar Productos correctamente
+        session()->flash('success', 'Producto actualizado correctamente.');
+    } else {
+        // Crear producto
+        Productos::create([
+            'nombre' => $this->nombre,
+            'codigo' => $this->codigo,
+            'precio' => $this->precio,
+            'stock' => $this->stock, // Establecer el stock inicial
+            'categoria_id' => $this->categoria_id,
+        ]);
+        session()->flash('success', 'Producto registrado correctamente.');
     }
+
+    // Resetear los campos del formulario
+    $this->reset(['nombre', 'codigo', 'precio', 'stock', 'categoria_id', 'producto_id']);
+
+    // Emitir evento para cerrar el modal (si es necesario)
+    $this->emit('cerrarModal');
+}
+    
+    
+    
+    
 
     // Función para editar un producto
     public function edit($id)

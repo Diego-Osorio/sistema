@@ -6,13 +6,20 @@
         </div>
     @endif
 
+    <!-- Mensaje de error -->
+    @if (session()->has('error'))
+        <div class="alert alert-danger mb-4 text-white">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <!-- Formulario de búsqueda y selección de producto -->
     <form wire:submit.prevent="buscarProducto" class="space-y-4 text-white">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Campo de búsqueda de productos -->
             <div class="mb-4">
                 <label for="producto" class="block font-medium text-gray-300">Producto:</label>
-                <input type="text" id="producto" wire:model="producto" wire:keyup="buscarProducto" 
+                <input type="text" id="producto" name="producto" wire:model="producto" wire:keyup="buscarProducto" 
                     class="w-full px-4 py-2 border border-gray-600 rounded bg-gray-700 text-white placeholder-gray-400" 
                     placeholder="Buscar producto..." />
 
@@ -50,14 +57,14 @@
                         <tr class="border-t border-gray-600">
                             <td class="px-4 py-2">{{ $producto['producto'] }}</td>
                             <td class="px-4 py-2">
-                                <input type="number" wire:model="productosSeleccionados.{{ $index }}.cantidad" 
+                                <input type="number" name="cantidad_{{ $index }}" wire:model="productosSeleccionados.{{ $index }}.cantidad" 
                                     wire:change="actualizarCantidad({{ $index }})" 
                                     class="w-16 px-2 py-1 border border-gray-600 rounded bg-gray-700 text-white" />
                             </td>
-                            <td class="px-4 py-2">${{ number_format($producto['precio'], ) }}</td>
-                            <td class="px-4 py-2">${{ number_format($producto['total'], ) }}</td>
+                            <td class="px-4 py-2">${{ number_format($producto['precio'], 2) }}</td>
+                            <td class="px-4 py-2">${{ number_format($producto['total'], 2) }}</td>
                             <td class="px-4 py-2">
-                                <button wire:click="eliminarProducto({{ $index }})" 
+                                <button type="button" wire:click="eliminarProducto({{ $index }})" 
                                     class="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700">
                                     Eliminar
                                 </button>
@@ -65,22 +72,23 @@
                         </tr>
                     @endforeach
                 </tbody>
-           
                 <tfoot>
                     <tr class="bg-gray-700 font-bold">
                         <td colspan="3" class="px-4 py-2 text-right">Total Venta:</td>
-                        <td class="px-4 py-2">${{ number_format($totalVenta, ) }}</td>
+                        <td class="px-4 py-2">${{ number_format($totalVenta, 2) }}</td>
                         <td></td>
                     </tr>
                 </tfoot>
             </table>
         </div>
     @endif
-    <div class="flex justify-end">
-            <button wire:click="agregarProductoLista" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                Agregar Producto
-            </button>
-        </div>
+
+    <div class="flex justify-end mt-4">
+        <button type="button" wire:click="agregarProductoLista" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+            Agregar Producto
+        </button>
+    </div>
+
     <!-- Formulario de pago y cliente -->
     @if(!empty($productosSeleccionados))
         <form wire:submit.prevent="submit" class="mt-6 space-y-4 text-white">
@@ -88,7 +96,7 @@
                 <!-- Selección del método de pago -->
                 <div class="mb-4">
                     <label for="metodo_pago" class="block font-medium text-gray-300">Método de pago:</label>
-                    <select id="metodo_pago" wire:model="metodo_pago" 
+                    <select id="metodo_pago" name="metodo_pago" wire:model="metodo_pago" 
                         class="w-full px-4 py-2 border border-gray-600 rounded bg-gray-700 text-white">
                         <option value="">Seleccione un método</option>
                         <option value="efectivo">Efectivo</option>
@@ -100,46 +108,39 @@
             <!-- Mostrar calculadora si se selecciona efectivo o tarjeta -->
             @if ($metodo_pago === 'efectivo' || $metodo_pago === 'tarjeta')
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Campo para el pago en efectivo -->
                     @if ($metodo_pago === 'efectivo')
                         <div class="mb-4">
                             <label for="pago_efectivo" class="block font-medium text-gray-300">Pago en Efectivo:</label>
-                            <input type="number" id="pago_efectivo" wire:model="pago_efectivo" 
+                            <input type="number" id="pago_efectivo" name="pago_efectivo" wire:model="pago_efectivo" 
                                 class="w-full px-4 py-2 border border-gray-600 rounded bg-gray-700 text-white" 
                                 placeholder="Ingrese el monto en efectivo" />
                         </div>
                     @endif
 
-                    <!-- Campo para el pago con tarjeta -->
                     @if ($metodo_pago === 'tarjeta')
                         <div class="mb-4">
                             <label for="pago_tarjeta" class="block font-medium text-gray-300">Pago con Tarjeta:</label>
-                            <input type="number" id="pago_tarjeta" wire:model="pago_tarjeta" 
+                            <input type="number" id="pago_tarjeta" name="pago_tarjeta" wire:model="pago_tarjeta" 
                                 class="w-full px-4 py-2 border border-gray-600 rounded bg-gray-700 text-white" 
                                 placeholder="Ingrese el monto con tarjeta" />
                         </div>
                     @endif
                 </div>
 
-                <!-- Mostrar el vuelto -->
                 <div class="mb-4 text-green-400">
-                    <strong>Vuelto:</strong> ${{ number_format($vuelto, ) }}
+                    <strong>Vuelto:</strong> ${{ number_format($vuelto, 2) }}
                 </div>
 
-                <!-- Mostrar el monto restante si no se ha completado el pago -->
                 @if ($restante > 0)
                     <div class="mb-4 text-red-400">
-                        <strong>Restante:</strong> ${{ number_format($restante, ) }}
+                        <strong>Restante:</strong> ${{ number_format($restante, 2) }}
                     </div>
                 @endif
             @endif
 
-            <!-- Botón para registrar la venta -->
-            <div class="mb-4">
-                <button type="submit" class="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                    Registrar Venta
-                </button>
-            </div>
+            <button type="submit" class="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                Registrar Venta
+            </button>
         </form>
     @endif
 </div>

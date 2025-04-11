@@ -20,12 +20,12 @@ class Categoria extends Component
     {
         $this->validate([
             'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string|max:500',
+           
         ]);
 
         Categorias::create([
             'nombre' => $this->nombre,
-            'descripcion' => $this->descripcion,
+       
         ]);
 
         session()->flash('success', 'Categoría agregada con éxito');
@@ -39,7 +39,6 @@ class Categoria extends Component
         $categoria = Categorias::find($id);
         $this->categoria_id = $categoria->id;
         $this->nombre = $categoria->nombre;
-        $this->descripcion = $categoria->descripcion;
         $this->modo_edicion = true;
     }
 
@@ -48,7 +47,7 @@ class Categoria extends Component
     {
         $this->validate([
             'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string|max:500',
+        
         ]);
 
         Categorias::find($this->categoria_id)->update([
@@ -73,7 +72,6 @@ class Categoria extends Component
     public function resetCampos()
     {
         $this->nombre = '';
-        $this->descripcion = '';
         $this->modo_edicion = false;
         $this->categoria_id = null;
     }

@@ -23,9 +23,6 @@
                 <flux:input label="Nombre" placeholder="Nombre de la categoría" wire:model="nombre" class="bg-gray-800 text-white border border-gray-700" />
                 @error('nombre') <span class="text-red-500">{{ $message }}</span> @enderror
 
-                <flux:textarea label="Descripción" placeholder="Descripción de la categoría" wire:model="descripcion" class="bg-gray-800 text-white border border-gray-700" />
-                @error('descripcion') <span class="text-red-500">{{ $message }}</span> @enderror
-
                 <div class="flex">
                     <flux:spacer />
                     <flux:button type="submit" variant="primary" class="bg-blue-600 text-white hover:bg-blue-700">{{ $modo_edicion ? 'Actualizar' : 'Agregar' }} Categoría</flux:button>
@@ -41,7 +38,6 @@
             <thead class="bg-gray-800 text-white">
                 <tr>
                     <th class="border p-4 text-left">Nombre</th>
-                    <th class="border p-4 text-left">Descripción</th>
                     <th class="border p-4 text-left">Acciones</th>
                 </tr>
             </thead>
@@ -49,7 +45,6 @@
                 @foreach ($categoria as $cat)
                     <tr class="hover:bg-gray-700">
                         <td class="border p-4">{{ $cat->nombre }}</td>
-                        <td class="border p-4">{{ $cat->descripcion }}</td>
                         <td class="border p-4 flex gap-2">
                             <flux:button wire:click="editarCategoria({{ $cat->id }})" class="bg-yellow-500 text-white hover:bg-yellow-600">Editar</flux:button>
                             <flux:button variant="danger" wire:click="eliminarCategoria({{ $cat->id }})" onclick="confirm('¿Seguro que deseas eliminar esta categoría?') || event.stopImmediatePropagation();" class="bg-red-600 text-white hover:bg-red-700">Eliminar</flux:button>

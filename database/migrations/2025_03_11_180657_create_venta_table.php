@@ -14,8 +14,6 @@ return new class extends Migration
         // Crear la tabla de ventas
         Schema::create('venta', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cliente_id')->nullable(); 
-            $table->foreign('cliente_id')->references('id')->on('cliente');
             $table->enum("metodo_pago", ["efectivo", "tarjeta", "transferencia", "otro", "dividido"])->default("efectivo");
             $table->enum('estado', ['pendiente', 'completado', 'cancelado'])->default('pendiente'); // Corregido
             $table->decimal('total', 10, 2)->default(0);

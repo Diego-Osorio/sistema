@@ -12,7 +12,6 @@ class Ventas extends Model
 
     protected $fillable = [
         'total',
-        'cliente_id',
         'metodo_pago',
         'estado',
         'fecha_venta',
@@ -21,8 +20,7 @@ class Ventas extends Model
     // Relación con productos
     public function productos()
     {
-        return $this->belongsToMany(Productos::class, 'venta_producto')
-            ->withPivot('cantidad', 'precio', 'total')
-            ->withTimestamps();
+        return $this->hasMany(\App\Models\VentaProducto::class, 'venta_id');
     }
+    
 }

@@ -4,7 +4,7 @@
         <flux:button class="bg-gray-800 text-white hover:bg-gray-700">{{ $producto_id ? 'Editar Producto' : 'Registrar Producto' }}</flux:button>
     </flux:modal.trigger>
 
-    <flux:modal name="producto-modal" class="md:w-96 bg-gray-900 text-white">
+    <flux:modal name="producto-modal" class="md:w-96 bg-gray-900 text-white" wire:modal="close-producto-modal">
         <div class="space-y-6">
             <div>
                 <flux:heading size="lg">{{ $producto_id ? 'Editar Producto' : 'Registrar Producto' }}</flux:heading>
@@ -80,4 +80,6 @@
             </tbody>
         </table>
     </div>
+    
+
 </div>
